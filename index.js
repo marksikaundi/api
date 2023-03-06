@@ -7,7 +7,9 @@ const User = require('./models/User');
 const { response } = require('express');
 
 dotenv.config();
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL, (err) => {
+    if (err) throw err;
+});
 const jwtSecret = process.env.JWT_SECRET;
 
 const app = express();
@@ -30,6 +32,7 @@ app.post('/register', async (req,res) => {
         });
     } catch(err) {
         if (err) throw err;
+        res.status(500).json('err');
     }
 });
 
